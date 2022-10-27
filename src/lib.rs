@@ -52,6 +52,10 @@ impl ElectronTestToken {
     #[payable]
     pub fn mint(&mut self, account_id: ValidAccountId, amount: U128) {
         self.assert_owner();
+        match self.token.accounts.get(&account_id.to_string()) {
+            None => self.register_account(account_id.clone().to_string()),
+            _ => (),
+        };
         self.internal_mint(account_id, amount);
     }
 
